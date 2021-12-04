@@ -1,0 +1,54 @@
+{
+  "name": "@publishvue/authstore",
+  "version": "1.0.0",
+  "contributors": [
+    "hyperbotauthor <hyperchessbotauthor@gmail.com>"
+  ],
+  "description": "Pgen test.",
+  "keywords": [
+    "pgen",
+    "test"
+  ],
+  "main": "",
+  "bin": {},
+  "config": {},
+  "files": [
+    "*"
+  ],
+  "repository": "https://github.com/hyperbotauthor/authstore",
+  "homepage": "https://github.com/hyperbotauthor/authstore#authstore",
+  "bugs": {
+    "url": "https://github.com/hyperbotauthor/authstore/issues",
+    "email": "hyperchessbotauthor@gmail.com"
+  },
+  "scripts": {
+    "prepare": "",
+    "dev": "netlify dev --live",
+    "build": "netlify build",
+    "generate": "",
+    "clean": "",
+    "serve": "",
+    "prettier": "prettier -w src netlify/functions index.html db.js",
+    "test": "",
+    "prep": "yarn prettier && yarn build",
+    "dry": "netlify build --dry"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-typescript": "^8.3.0",
+    "netlify-cli": "^6.14.1",
+    "node-fetch": "2.6.5",
+    "parse-git-config": "^3.0.0",
+    "prettier": "^2.4.1",
+    "rollup": "^2.58.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "@bity/oauth2-auth-code-pkce": "^2.13.0",
+    "@netlify/functions": "^0.7.2",
+    "@publishvue/fetchclient": "^1.0.5",
+    "mongodb": "^4.1.3"
+  }
+}

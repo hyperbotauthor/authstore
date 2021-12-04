@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Auth Store</title>
+    <script src="pkce.js"></script>
+    <script src="src/oauth.js"></script>
+  </head>
+  <body>
+    <a href="/"
+      >home<a>
+        |
+        <a href="/.netlify/functions/netlifyindex"
+          >invoke index<a>
+            <hr />
+            <button onclick="login()">Login</button>
+            <button onclick="useApi()" id="useapibutton">Use API</button>
+            <button onclick="logout()" id="logoutbutton">Log out</button>
+            <hr />
+            <form
+              target="_blank"
+              id="MAIN_FORM"
+              method="POST"
+              action="/.netlify/functions/netlifyindex?payload=form"
+            >
+              <table cellpadding="5" cellspacing="5" border="1">
+                <thead style="background-color: #eee">
+                  <tr>
+                    <td>Key</td>
+                    <td>Value</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Token</td>
+                    <td>
+                      <input
+                        type="text"
+                        id="LICHESS_TOKEN"
+                        name="LICHESS_TOKEN"
+                        style="width: 95%"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Collection ( empty for default collection )</td>
+                    <td>
+                      <input
+                        type="text"
+                        id="COLLECTION"
+                        name="COLLECTION"
+                        style="width: 95%"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Document Id</td>
+                    <td>
+                      <input
+                        type="text"
+                        id="DOCUMENT_ID"
+                        name="DOCUMENT_ID"
+                        style="width: 95%"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Document</td>
+                    <td>
+                      <textarea
+                        id="DOCUMENT"
+                        name="DOCUMENT"
+                        style="width: 95%; height: 100px"
+                      ></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Action</td>
+                    <td>
+                      <input
+                        type="hidden"
+                        id="ACTION"
+                        name="ACTION"
+                        value="none"
+                      />
+                      <input type="hidden" id="MAX" name="MAX" value="100" />
+                      <button onclick="submitAction(event, 'set')">
+                        Set / Update
+                      </button>
+                      <button onclick="submitAction(event, 'bulkwrite')">
+                        Bulk write
+                      </button>
+                      <button onclick="submitAction(event, 'get')">Get</button>
+                      <button onclick="submitAction(event, 'getmany')">
+                        Get Many
+                      </button>
+                      <button onclick="submitAction(event, 'getall')">
+                        Get All ( max 100 )
+                      </button>
+                      <button onclick="submitAction(event, 'delete')">
+                        Delete
+                      </button>
+                      <button onclick="submitAction(event, 'countdocs')">
+                        Count docs
+                      </button>
+                      <button onclick="submitAction(event, 'collsize')">
+                        Collection size
+                      </button>
+                      <button onclick="submitAction(event, 'listcollections')">
+                        List collections
+                      </button>
+                      <button onclick="submitAction(event, 'deletecollection')">
+                        Delete collection
+                      </button>
+                      <button onclick="submitAction(event, 'log')">Log</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+            <script>
+              function submitAction(ev, action) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                console.log(ev);
+                console.log("submitting", action);
+                document.getElementById("ACTION").setAttribute("value", action);
+                if (action === "bulkwrite") {
+                  const id = document.getElementById("DOCUMENT_ID").value;
+                  const doc = document.getElementById("DOCUMENT").value;
+                  const bulk = [1, 2, 3].map((i) => ({
+                    updateOne: {
+                      filter: {
+                        _id: `${id}_${i}`,
+                      },
+                      update: {
+                        $set: {
+                          content: `${doc} [ version ${i} ]`,
+                        },
+                      },
+                      upsert: true,
+                    },
+                  }));
+                  document.getElementById("DOCUMENT").value =
+                    JSON.stringify(bulk);
+                }
+                document.getElementById("MAIN_FORM").submit();
+                document.getElementById("DOCUMENT").value = "";
+              }
+              init();
+            </script></a
+          ></a
+        ></a
+      ></a
+    >
+  </body>
+</html>
